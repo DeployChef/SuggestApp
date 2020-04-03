@@ -17,5 +17,9 @@
     <ProjectReference Include="..\SuggestService.DataAccess\SuggestService.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
 
 </Project>

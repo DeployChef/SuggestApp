@@ -26,12 +26,17 @@ namespace SuggestService.DataAccess.Repositories
 
         public async Task<IReadOnlyCollection<string>> GetSuggestsAsync(string input, CancellationToken token)
         {
+            _logger.LogTrace($"Getting suggests for {input}");
+
             using (var dbConnection = _dbConnectionFactory.Create())
             {
+                var query = $"SELECT * FROM public.suggest WHERE suggestion ~* '^{input}'";
+
                 dbConnection.Open();
-                _logger.LogTrace($"Get Suggests for {input}");
-                var suggests = (await dbConnection.QueryAsync<SuggestEntity>($"SELECT * FROM public.suggest WHERE suggestion ~ '{input}'")).ToList();
-                _logger.LogTrace($"Getted {suggests.Count} suggests for  {input}");
+                var suggests = (await dbConnection.QueryAsync<SuggestEntity>(new CommandDefinition(query, cancellationToken: token))).ToList();
+
+                _logger.LogTrace($"Received {suggests.Count} suggests for {input}");
+
                 return suggests.Select(c => c.Suggestion).ToArray();
             }
         }
