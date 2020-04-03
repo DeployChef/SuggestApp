@@ -9,6 +9,9 @@
     executor:
       name: win/default
     steps:
+      - run:
+          name: "Print First Directory"
+          command: pwd
       - checkout
       - restore_cache:
           keys:
@@ -26,6 +29,8 @@
       - run:
           name: "Print Working Directory"
           command: pwd
+      - store_artifacts:
+          path: C:\Users\circleci\project\test_coverage
   build:
     description: Build application with Release configuration
     executor:
