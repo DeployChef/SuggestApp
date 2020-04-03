@@ -8,11 +8,9 @@
     description: Setup and run application tests
     executor:
       name: win/default
+    - working_directory: ~/Backend
     steps:
       - checkout
-      - run:
-          name: "CD to backend"
-          command: cd Backend/
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "SuggestService/SuggestService.csproj" }}
