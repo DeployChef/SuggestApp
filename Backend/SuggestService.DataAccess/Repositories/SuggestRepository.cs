@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using SuggestService.DataAccess.Entities;
 using SuggestService.DataAccess.Interfaces;
+using SuggestService.Entities;
 
 namespace SuggestService.DataAccess.Repositories
 {
@@ -30,7 +30,7 @@ namespace SuggestService.DataAccess.Repositories
 
             using (var dbConnection = _dbConnectionFactory.Create())
             {
-                var query = $"SELECT * FROM public.suggest WHERE suggestion ~* '^{input}'";
+                var query = $"SELECT * FROM public.suggest WHERE suggestion ~* '^{input}' LIMIT 10";
 
                 dbConnection.Open();
                 var suggests = (await dbConnection.QueryAsync<SuggestEntity>(new CommandDefinition(query, cancellationToken: token))).ToList();
