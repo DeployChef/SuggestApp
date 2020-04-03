@@ -20,7 +20,7 @@
           command: pwd
       - run:
           name: "Install project dependencies"
-          command: dotnet.exe restore
+          command: dotnet.exe restore .\SuggestService.sln
       - save_cache:
           paths:
             - C:\Users\circleci\.nuget\packages
@@ -43,7 +43,7 @@
           path: ~/SuggestApp
       - run:
           name: "Build Application according to some given configuration"
-          command: dotnet.exe build --configuration Release
+          command: dotnet.exe build .\SuggestService.sln --configuration Release
  workflows:
   test_and_build:
     jobs:
