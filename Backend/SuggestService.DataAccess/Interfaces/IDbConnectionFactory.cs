@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SuggestService.DataAccess.Interfaces
 {
-    public interface IConnectionFactory
+    public interface IDbConnectionFactory
     {
         IDbConnection Create();
     }

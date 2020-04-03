@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using SuggestService.DataAccess.Entities;
 using SuggestService.DataAccess.Interfaces;
 
@@ -13,15 +15,18 @@ namespace SuggestService.DataAccess.Repositories
 {
     public class SuggestRepository : ISuggestRepository
     {
-        private readonly IConnectionFactory _connectionFactory;
-        public SuggestRepository(IConnectionFactory connectionFactory)
+        private readonly IDbConnectionFactory _dbConnectionFactory;
+        private readonly ILogger<SuggestRepository> _logger;
+
+        public SuggestRepository(IDbConnectionFactory dbConnectionFactory, ILogger<SuggestRepository> logger = null)
         {
-            _connectionFactory = connectionFactory;
+            _dbConnectionFactory = dbConnectionFactory;
+            _logger = logger ?? new NullLogger<SuggestRepository>();
         }
 
         public async Task<IReadOnlyCollection<string>> GetSuggestsAsync(string input, CancellationToken token)
         {
-            using (var dbConnection = _connectionFactory.Create())
+            using (var dbConnection = _dbConnectionFactory.Create())
             {
                 dbConnection.Open();
                 var suggests = await dbConnection.QueryAsync<SuggestEntity>("SELECT * FROM customer", token);
