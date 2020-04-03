@@ -1,0 +1,53 @@
+ version: 2.1
+
+ orbs:
+  win: circleci/windows@2.2.0
+
+ jobs:
+  test:
+    description: Setup and run application tests
+    executor:
+      name: win/default
+    working_directory: ~/SuggestApp/Backend
+    steps:
+      - checkout:
+          path: ~/SuggestApp
+      - restore_cache:
+          keys:
+            - dotnet-packages-v1-{{ checksum "SuggestService/SuggestService.csproj" }}
+      - run:
+          name: "Print Working Directory"
+          command: pwd
+      - run:
+          name: "Install project dependencies"
+          command: dotnet.exe restore .\SuggestService.sln
+      - save_cache:
+          paths:
+            - C:\Users\circleci\.nuget\packages
+          key: dotnet-packages-v1-{{ checksum "SuggestService/SuggestService.csproj" }}
+      - run:
+          name: "Run Application Tests"
+          command: dotnet.exe test .\SuggestService.sln -v n --results-directory:test_coverage --collect:"Code Coverage"
+      - run:
+          name: "Print Working Directory"
+          command: pwd
+      - store_artifacts:
+          path: C:\Users\circleci\project\test_coverage
+  build:
+    description: Build application with Release configuration
+    working_directory: ~/SuggestApp/Backend
+    executor:
+      name: win/default
+    steps:
+      - checkout:
+          path: ~/SuggestApp
+      - run:
+          name: "Build Application according to some given configuration"
+          command: dotnet.exe build .\SuggestService.sln --configuration Release
+ workflows:
+  test_and_build:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
