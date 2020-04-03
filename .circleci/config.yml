@@ -8,9 +8,10 @@
     description: Setup and run application tests
     executor:
       name: win/default
-    working_directory: ~/Backend
+    working_directory: ~/SuggestApp/Backend
     steps:
-      - checkout
+      - checkout:
+          path: ~/SuggestApp
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService.csproj" }}
@@ -34,11 +35,12 @@
           path: C:\Users\circleci\project\test_coverage
   build:
     description: Build application with Release configuration
-    working_directory: ~/Backend
+    working_directory: ~/SuggestApp/Backend
     executor:
       name: win/default
     steps:
-      - checkout
+      - checkout:
+          path: ~/SuggestApp
       - run:
           name: "Build Application according to some given configuration"
           command: dotnet.exe build --configuration Release
