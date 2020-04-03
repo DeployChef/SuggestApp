@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SuggestService.Configurators.DbConfigurator;
+using SuggestService.DataAccess.Interfaces;
+using SuggestService.DataAccess.Repositories;
 
 namespace SuggestService
 {
@@ -31,6 +33,8 @@ namespace SuggestService
 
             var connectionString = Configuration.GetValue<string>("DBInfo:ConnectionString");
             services.UseNpgsqlConnections(connectionString);
+
+            services.AddScoped<ISuggestRepository, SuggestRepository>();
 
             services.AddSwaggerGen(c =>
             {
@@ -54,7 +58,7 @@ namespace SuggestService
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Suggest API V1");
                 c.RoutePrefix = "";
             });
 

@@ -29,8 +29,10 @@ namespace SuggestService.DataAccess.Repositories
             using (var dbConnection = _dbConnectionFactory.Create())
             {
                 dbConnection.Open();
-                var suggests = await dbConnection.QueryAsync<SuggestEntity>("SELECT * FROM customer", token);
-                return suggests.Select(c => c.Name).ToArray();
+                _logger.LogTrace($"Get Suggests for {input}");
+                var suggests = (await dbConnection.QueryAsync<SuggestEntity>($"SELECT * FROM public.suggest WHERE suggestion ~ '{input}'")).ToList();
+                _logger.LogTrace($"Getted {suggests.Count} suggests for  {input}");
+                return suggests.Select(c => c.Suggestion).ToArray();
             }
         }
     }

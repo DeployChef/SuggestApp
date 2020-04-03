@@ -29,7 +29,7 @@ namespace SuggestService.Controllers
         public async Task<IActionResult> Suggest(string input, CancellationToken token)
         {
             var result = await _repository.GetSuggestsAsync(input, token);
-            _logger.LogInformation($"Getting suggest by {input}");
+            _logger.LogInformation($"Getting suggest for {input}");
             return Ok(result);
         }
     }

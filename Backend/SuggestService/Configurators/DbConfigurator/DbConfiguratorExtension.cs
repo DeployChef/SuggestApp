@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using SuggestService.DataAccess.Interfaces;
 
 namespace SuggestService.Configurators.DbConfigurator
 {
@@ -10,7 +11,7 @@ namespace SuggestService.Configurators.DbConfigurator
     {
         public static IServiceCollection UseNpgsqlConnections(this IServiceCollection services, string connectionString)
         {
-            services.AddTransient(provider => new PostgresConnectionFactory(connectionString));
+            services.AddTransient<IDbConnectionFactory>(provider => new PostgresConnectionFactory(connectionString));
             return services;
         }
     }
