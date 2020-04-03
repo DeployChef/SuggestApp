@@ -8,6 +8,6 @@ namespace SuggestService.DataAccess.Interfaces
 {
     public interface ISuggestRepository
     {
-        Task<IReadOnlyCollection<string>> GetSuggests(string input, CancellationToken token);
+        Task<IReadOnlyCollection<string>> GetSuggestsAsync(string input, CancellationToken token);
     }
 }

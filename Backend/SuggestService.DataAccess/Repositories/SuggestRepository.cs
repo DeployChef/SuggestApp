@@ -19,12 +19,12 @@ namespace SuggestService.DataAccess.Repositories
             _connectionFactory = connectionFactory;
         }
 
-        public async Task<IReadOnlyCollection<string>> GetSuggests(string input, CancellationToken token)
+        public async Task<IReadOnlyCollection<string>> GetSuggestsAsync(string input, CancellationToken token)
         {
             using (var dbConnection = _connectionFactory.Create())
             {
                 dbConnection.Open();
-                var suggests = dbConnection.Query<SuggestEntity>("SELECT * FROM customer");
+                var suggests = await dbConnection.QueryAsync<SuggestEntity>("SELECT * FROM customer", token);
                 return suggests.Select(c => c.Name).ToArray();
             }
         }
