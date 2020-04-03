@@ -9,10 +9,10 @@
     executor:
       name: win/default
     steps:
+      - checkout
       - run:
           name: "CD to backend"
           command: cd Backend/
-      - checkout
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "SuggestService/SuggestService.csproj" }}
