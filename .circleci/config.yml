@@ -15,14 +15,14 @@
             - dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService.csproj" }}
       - run:
           name: "Install project dependencies"
-          command: cd Backend/ && dotnet.exe restore
+          command: cd Backend && dotnet.exe restore
       - save_cache:
           paths:
             - C:\Users\circleci\.nuget\packages
           key: dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService.csproj" }}
       - run:
           name: "Run Application Tests"
-          command: cd Backend/ && dotnet.exe test -v n --results-directory:test_coverage --collect:"Code Coverage"
+          command: cd Backend && dotnet.exe test -v n --results-directory:test_coverage --collect:"Code Coverage"
       - run:
           name: "Print Working Directory"
           command: pwd
@@ -36,7 +36,7 @@
       - checkout
       - run:
           name: "Build Application according to some given configuration"
-          command: cd Backend/ && dotnet.exe build --configuration Release
+          command: cd Backend && dotnet.exe build --configuration Release
  workflows:
   test_and_build:
     jobs:
