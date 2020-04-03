@@ -8,6 +8,7 @@
     description: Setup and run application tests
     executor:
       name: win/default
+    working_directory: ~/Backend
     steps:
       - checkout
       - restore_cache:
@@ -15,14 +16,14 @@
             - dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService.csproj" }}
       - run:
           name: "Install project dependencies"
-          command: cd Backend && dotnet.exe restore
+          command: dotnet.exe restore
       - save_cache:
           paths:
             - C:\Users\circleci\.nuget\packages
           key: dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService.csproj" }}
       - run:
           name: "Run Application Tests"
-          command: cd Backend && dotnet.exe test -v n --results-directory:test_coverage --collect:"Code Coverage"
+          command: dotnet.exe test -v n --results-directory:test_coverage --collect:"Code Coverage"
       - run:
           name: "Print Working Directory"
           command: pwd
@@ -30,13 +31,14 @@
           path: C:\Users\circleci\project\test_coverage
   build:
     description: Build application with Release configuration
+    working_directory: ~/Backend
     executor:
       name: win/default
     steps:
       - checkout
       - run:
           name: "Build Application according to some given configuration"
-          command: cd Backend && dotnet.exe build --configuration Release
+          command: dotnet.exe build --configuration Release
  workflows:
   test_and_build:
     jobs:
