@@ -12,14 +12,14 @@
       - checkout
       - restore_cache:
           keys:
-            - dotnet-packages-v1-{{ checksum "Processing.FeedProxyService/Processing.FeedProxyService" }}
+            - dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService" }}
       - run:
           name: "Install project dependencies"
           command: dotnet.exe restore
       - save_cache:
           paths:
             - C:\Users\circleci\.nuget\packages
-          key: dotnet-packages-v1-{{ checksum "Processing.FeedProxyService/Processing.FeedProxyService" }}
+          key: dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService" }}
       - run:
           name: "Run Application Tests"
           command: dotnet.exe test -v n --results-directory:test_coverage --collect:"Code Coverage"
