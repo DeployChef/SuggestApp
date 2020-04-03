@@ -14,7 +14,7 @@
           path: ~/SuggestApp
       - restore_cache:
           keys:
-            - dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService.csproj" }}
+            - dotnet-packages-v1-{{ checksum "SuggestService/SuggestService.csproj" }}
       - run:
           name: "Print Working Directory"
           command: pwd
@@ -24,7 +24,7 @@
       - save_cache:
           paths:
             - C:\Users\circleci\.nuget\packages
-          key: dotnet-packages-v1-{{ checksum "Backend/SuggestService/SuggestService.csproj" }}
+          key: dotnet-packages-v1-{{ checksum "SuggestService/SuggestService.csproj" }}
       - run:
           name: "Run Application Tests"
           command: dotnet.exe test -v n --results-directory:test_coverage --collect:"Code Coverage"
