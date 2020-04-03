@@ -27,7 +27,7 @@
           key: dotnet-packages-v1-{{ checksum "SuggestService/SuggestService.csproj" }}
       - run:
           name: "Run Application Tests"
-          command: dotnet.exe test -v n --results-directory:test_coverage --collect:"Code Coverage"
+          command: dotnet.exe test .\SuggestService.sln -v n --results-directory:test_coverage --collect:"Code Coverage"
       - run:
           name: "Print Working Directory"
           command: pwd
