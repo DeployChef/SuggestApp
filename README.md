@@ -1,6 +1,8 @@
 # SuggestApp
 
-[![CircleCI Build Status](https://circleci.com/gh/DeployChef/SuggestApp.svg?style=shield)](https://circleci.com/gh/DeployChef/SuggestApp)
+Статус билда: [![CircleCI Build Status](https://circleci.com/gh/DeployChef/SuggestApp.svg?style=shield)](https://circleci.com/gh/DeployChef/SuggestApp)
+
+![](SuggestGif.gif)
 
 # Приложение по выдаче подсказок состоящее из двух частей:
 
