@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SuggestService.DataAccess\SuggestService.DataAccess.csproj" />
+    <ProjectReference Include="..\SuggestService.Domain\SuggestService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

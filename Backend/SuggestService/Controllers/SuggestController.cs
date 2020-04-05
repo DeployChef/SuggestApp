@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SuggestService.DataAccess.Interfaces;
+using SuggestService.Domain.Results.Enums;
+using SuggestService.Services;
 
 namespace SuggestService.Controllers
 {
@@ -14,12 +16,12 @@ namespace SuggestService.Controllers
     [Route("api/suggest")]
     public class SuggestController : Controller
     {
-        private readonly ISuggestRepository _repository;
+        private readonly ISuggestService _suggestService;
         private readonly ILogger<SuggestController> _logger;
 
-        public SuggestController(ISuggestRepository repository, ILogger<SuggestController> logger = null)
+        public SuggestController(ISuggestService suggestService, ILogger<SuggestController> logger = null)
         {
-            _repository = repository;
+            _suggestService = suggestService;
             _logger = logger ?? new NullLogger<SuggestController>();
         }
 
@@ -28,9 +30,13 @@ namespace SuggestService.Controllers
         [HttpGet("Suggests")]
         public async Task<IActionResult> Suggest(string input, CancellationToken token)
         {
-            var result = await _repository.GetSuggestsAsync(input, token);
-            _logger.LogInformation($"Received suggest for {input}");
-            return Ok(result);
+            var result = await _suggestService.GetSuggestsAsync(input, token);
+
+            if (result.Value == SuggestServiceResult.Ok)
+                return Ok(result.Data);
+
+            _logger.LogWarning($"Conflict {result.Message}");
+            return Conflict(result.Message);
         }
     }
 }

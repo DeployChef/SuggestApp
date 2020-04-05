@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SuggestService.Domain.Results;
+using SuggestService.Domain.Results.Enums;
 
 namespace SuggestService.Services
 {
     public interface ISuggestService
     {
-        Task<IReadOnlyCollection<string>> GetSuggestsAsync(string input, CancellationToken token);
+        Task<Result<SuggestServiceResult, IReadOnlyCollection<string>>> GetSuggestsAsync(string input, CancellationToken token);
     }
 }

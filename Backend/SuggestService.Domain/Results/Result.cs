@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SuggestService.Domain
+namespace SuggestService.Domain.Results
 {
     public struct Result<TResult> where TResult : Enum
     {
@@ -17,19 +15,19 @@ namespace SuggestService.Domain
         }
     }
 
-    public struct Result<TResult, TModel> where TResult : Enum where TModel : class
+    public struct Result<TResult, TData> where TResult : Enum where TData : class
     {
         public TResult Value { get; }
 
-        public TModel Model { get; }
+        public TData Data { get; }
 
         public string Message { get; }
 
-        public Result(TResult value, TModel model = null, string message = "")
+        public Result(TResult value, TData data = null, string message = "")
         {
             Value = value;
             Message = message;
-            Model = model;
+            Data = data;
         }
     }
 }

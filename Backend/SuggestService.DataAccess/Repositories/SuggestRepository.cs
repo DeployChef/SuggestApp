@@ -9,6 +9,8 @@ using Dapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SuggestService.DataAccess.Interfaces;
+using SuggestService.DataAccess.Translators;
+using SuggestService.Domain.Models;
 using SuggestService.Entities;
 
 namespace SuggestService.DataAccess.Repositories
@@ -24,7 +26,7 @@ namespace SuggestService.DataAccess.Repositories
             _logger = logger ?? new NullLogger<SuggestRepository>();
         }
 
-        public async Task<IReadOnlyCollection<string>> GetSuggestsAsync(string input, CancellationToken token)
+        public async Task<IReadOnlyCollection<Suggest>> GetSuggestsAsync(string input, CancellationToken token)
         {
             _logger.LogTrace($"Getting suggests for {input}");
 
@@ -37,7 +39,7 @@ namespace SuggestService.DataAccess.Repositories
 
                 _logger.LogTrace($"Received {suggests.Count} suggests for {input}");
 
-                return suggests.Select(c => c.Suggestion).ToArray();
+                return suggests.Select(c => c.ToModel()).ToArray();
             }
         }
     }

@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SuggestService.Controllers;
 using SuggestService.DataAccess.Interfaces;
+using SuggestService.Domain.Results;
+using SuggestService.Domain.Results.Enums;
 
 namespace SuggestService.Services
 {
@@ -21,9 +23,20 @@ namespace SuggestService.Services
             _logger = logger ?? new NullLogger<SuggestService>();
         }
 
-        public Task<IReadOnlyCollection<string>> GetSuggestsAsync(string input, CancellationToken token)
+        public async Task<Result<SuggestServiceResult, IReadOnlyCollection<string>>> GetSuggestsAsync(string input, CancellationToken token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _repository.GetSuggestsAsync(input, token);
+                _logger.LogInformation($"Received suggest for {input}");
+
+                return new Result<SuggestServiceResult, IReadOnlyCollection<string>>(SuggestServiceResult.Ok, result.Select(c=>c.Suggestion).ToArray());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new Result<SuggestServiceResult, IReadOnlyCollection<string>>(SuggestServiceResult.Error, message: "DB error");
+            }
         }
     }
 }
