@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using SuggestService.Controllers;
 using SuggestService.DataAccess.Interfaces;
 using SuggestService.Domain.Results;
 using SuggestService.Domain.Results.Enums;

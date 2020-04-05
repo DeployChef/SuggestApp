@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Bogus;
-using Moq;
 
 namespace SuggestService.Tests.Utils
 {

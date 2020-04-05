@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SuggestService.Domain.Models;
+﻿using SuggestService.Domain.Models;
 using SuggestService.Entities;
 
 namespace SuggestService.DataAccess.Translators

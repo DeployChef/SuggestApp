@@ -1,16 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Moq;
 using ServiceStack.OrmLite;
-using ServiceStack.OrmLite.PostgreSQL;
-using SuggestService.DataAccess.Interfaces;
-using SuggestService.DataAccess.Repositories;
-using SuggestService.Entities;
-using SuggestService.Tests.FakeModels;
 using SuggestService.Tests.Utils;
 using Xunit;
 
@@ -41,23 +32,26 @@ namespace SuggestService.Tests.UnitTests.SuggestRepositoryTests
             //result.Select(c=>c.Suggestion).Should().BeEquivalentTo(suggests.Take(10));
         }
 
+
+        //КОГДА НИБУДЬ OrmLite ЗАРАБОТАЕТ ДЛЯ ПОСТГРЕСА В ИНМЕМОРИ, ТОГДА И ВСЕ ЗАРАБОТАЕТ :))))
+
         public class InMemoryDatabase
         {
-            //private readonly OrmLiteConnectionFactory dbFactory = new OrmLiteConnectionFactory(":memory:", PostgreSqlDialect.Instance);
+            private readonly OrmLiteConnectionFactory dbFactory = new OrmLiteConnectionFactory(":memory:", PostgreSqlDialect.Instance);
 
-            //public IDbConnection OpenConnection() => this.dbFactory.OpenDbConnection();
+            public IDbConnection OpenConnection() => this.dbFactory.OpenDbConnection();
 
-            //public void Insert<T>(IEnumerable<T> items)
-            //{
-            //    using (var db = this.OpenConnection())
-            //    {
-            //        db.CreateTableIfNotExists<T>();
-            //        foreach (var item in items)
-            //        {
-            //            db.Insert(item);
-            //        }
-            //    }
-            //}
+            public void Insert<T>(IEnumerable<T> items)
+            {
+                using (var db = this.OpenConnection())
+                {
+                    db.CreateTableIfNotExists<T>();
+                    foreach (var item in items)
+                    {
+                        db.Insert(item);
+                    }
+                }
+            }
         }
     }
 }

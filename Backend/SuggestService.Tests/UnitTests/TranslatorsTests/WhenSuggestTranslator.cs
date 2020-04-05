@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FluentAssertions;
-using Moq;
-using SuggestService.DataAccess.Interfaces;
 using SuggestService.DataAccess.Translators;
-using SuggestService.Domain.Models;
 using SuggestService.Entities;
 using SuggestService.Tests.Utils;
 using Xunit;

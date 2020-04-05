@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SuggestService.Configurators.DbConfigurator;
 using SuggestService.DataAccess.Interfaces;
 using SuggestService.DataAccess.Repositories;
+using SuggestService.Services;
 
 namespace SuggestService
 {
@@ -35,6 +29,7 @@ namespace SuggestService
             services.UseNpgsqlConnections(connectionString);
 
             services.AddScoped<ISuggestRepository, SuggestRepository>();
+            services.AddScoped<ISuggestService, Services.SuggestService>();
 
             services.AddCors(options =>
             {
